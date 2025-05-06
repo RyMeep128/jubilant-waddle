@@ -3,6 +3,7 @@ package application;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import application.components.InputComponent;
 import application.terrain.Terrain;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
@@ -43,27 +44,21 @@ public class Controller implements PropertyChangeListener {
 	 * @param scene The JavaFX scene to attach key listeners to
 	 */
 	public void setKeys(Scene scene) {
-		scene.setOnKeyPressed(event -> {	
-			if (compareKeyCode(event.getCode(), KeyCode.UP) || compareKeyCode(event.getCode(), KeyCode.W)) {
-				model.move(Direction.UP);
-			}
-			if (compareKeyCode(event.getCode(), KeyCode.DOWN) || compareKeyCode(event.getCode(), KeyCode.S)) {
-				model.move(Direction.DOWN);
-			}
-			if (compareKeyCode(event.getCode(), KeyCode.LEFT) || compareKeyCode(event.getCode(), KeyCode.A)) {
-				model.move(Direction.LEFT);
-			}
-			if (compareKeyCode(event.getCode(), KeyCode.RIGHT) || compareKeyCode(event.getCode(), KeyCode.D)) {
-				model.move(Direction.RIGHT);
-			}
-			if (compareKeyCode(event.getCode(), KeyCode.ESCAPE)) {
-				// Future functionality for escape key
-			}
-			if (compareKeyCode(event.getCode(), KeyCode.SPACE)) {
-				// Future functionality for attacking
-			}
-		});
+	    scene.setOnKeyPressed(event -> {
+	        InputComponent input = model.getPlayer().getComponent(InputComponent.class);
+	        if (input != null) {
+	            input.press(event.getCode());
+	        }
+	    });
+
+	    scene.setOnKeyReleased(event -> {
+	        InputComponent input = model.getPlayer().getComponent(InputComponent.class);
+	        if (input != null) {
+	            input.release(event.getCode());
+	        }
+	    });
 	}
+
 
 	/**
 	 * Utility method for comparing two KeyCode objects.

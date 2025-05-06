@@ -1,18 +1,29 @@
 package application.objects;
 
 import application.components.HealthComponent;
+import application.components.InputComponent;
 import application.terrain.Terrain;
 
 public class PlayerObject extends MoveableObject{
+	
+	private int defaultHealth = 100;
 
 	PlayerObject(int x, int y, int w, int h,int health) {
 		super(x, y, w, h,Terrain.PLAYER);
 		addComponent(new HealthComponent(health)); // Add health here
+		addComponent(new InputComponent());
 	}
 	
 	public PlayerObject(int x, int y,int health) {
 		super(x,y,Terrain.PLAYER);
 		addComponent(new HealthComponent(health)); // Add health here
+		addComponent(new InputComponent());
+	}
+	
+	public PlayerObject(int x, int y) {
+		super(x,y,Terrain.PLAYER);
+		addComponent(new HealthComponent(defaultHealth)); // Add health here
+		addComponent(new InputComponent());
 	}
 
 	@Override

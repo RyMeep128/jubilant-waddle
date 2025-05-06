@@ -7,7 +7,7 @@ import javafx.scene.paint.Color;
 /**
  * Zok – a slow but resilient enemy, often found patrolling ancient ruins.
  */
-public class Zok extends Enemy {
+public class Zok extends EnemyObject {
 	private static int idCount = 0;
 	
 	public Zok(int x, int y, int w, int h, int health) {

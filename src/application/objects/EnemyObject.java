@@ -8,7 +8,7 @@ import application.components.HealthComponent;
 import application.terrain.Terrain;
 import javafx.scene.paint.Color;
 
-public abstract class Enemy extends MoveableObject {
+public abstract class EnemyObject extends MoveableObject {
 
 
 	protected Color defaultColor;
@@ -18,14 +18,14 @@ public abstract class Enemy extends MoveableObject {
 	private double moveTimer = 0;
 	private Random random = new Random();
 		
-	Enemy(int x, int y, int w, int h, String tag, Terrain type) {
+	EnemyObject(int x, int y, int w, int h, String tag, Terrain type) {
 		super(x, y, w, h, type);
 		this.tag = tag;
 		this.defaultColor = Color.RED;
 		// TODO Auto-generated constructor stub
 	}
 	
-	Enemy(int x, int y, String tag,Terrain type) {
+	EnemyObject(int x, int y, String tag,Terrain type) {
 		super(x, y, type);
 		this.defaultColor = Color.RED;
 		this.tag = tag;

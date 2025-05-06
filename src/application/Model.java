@@ -5,11 +5,13 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
-import application.objects.Enemy;
+import application.components.InputComponent;
+import application.objects.EnemyObject;
 import application.objects.MoveableObject;
 import application.objects.PlayerObject;
 import application.objects.Zok;
 import application.terrain.Terrain;
+import javafx.scene.input.KeyCode;
 
 
 /**
@@ -22,7 +24,7 @@ import application.terrain.Terrain;
 public class Model {
 	private PropertyChangeSupport support;           // Handles observer notification
 	private PlayerObject player;                     // The player character
-	private ArrayList<Enemy> enemyList;              // List of enemies in the game
+	private ArrayList<EnemyObject> enemyList;              // List of enemies in the game
 	private Terrain[][] terrain;                     // 2D grid representing the game map
 	private List<MoveRequest> moveQueue = new ArrayList<>();
 
@@ -99,13 +101,45 @@ public class Model {
 	}
 
 	public void update(double deltaTime) {
-		for (Enemy enemy : enemyList) {
+		handleKeys();	
+		for (EnemyObject enemy : enemyList) {
 			enemy.update(deltaTime, terrain, this);  // Only queues a move
 		}
 
 		processMoveQueue();  // Actually resolve the moves
 		support.firePropertyChange("UpdateBoard", "NotNull", terrain);
 	}	
+	
+	
+	private long lastMoveTime = 0;
+	private final long moveCooldownMillis = 75; // Adjust this to control movement speed
+	
+	private void handleKeys() {
+		InputComponent input = player.getComponent(InputComponent.class);
+		
+	    if (input == null) 
+	    	return;
+	    
+	    long now = System.currentTimeMillis();
+	    
+	    if (now - lastMoveTime < moveCooldownMillis) {
+	        return; // Not enough time has passed
+	    }
+	    
+	    
+		if (input != null) {
+		    if (input.isPressed(KeyCode.W) || input.isPressed(KeyCode.UP)) 
+		    	move(Direction.UP);
+		    if (input.isPressed(KeyCode.S) || input.isPressed(KeyCode.DOWN)) 
+		    	move(Direction.DOWN);
+		    if (input.isPressed(KeyCode.A) || input.isPressed(KeyCode.LEFT)) 
+		    	move(Direction.LEFT);
+		    if (input.isPressed(KeyCode.D) || input.isPressed(KeyCode.RIGHT)) 
+		    	move(Direction.RIGHT);
+		}
+		lastMoveTime = now;
+
+	}
 
 	private void processMoveQueue() {
 		for (MoveRequest req : moveQueue) {
@@ -119,7 +153,7 @@ public class Model {
 	/**
 	 * @return the list of enemies currently in the game
 	 */
-	public ArrayList<Enemy> getEnemyList() {
+	public ArrayList<EnemyObject> getEnemyList() {
 		return enemyList;
 	}
 
@@ -170,5 +204,10 @@ public class Model {
 
 	private int toGridY(int pixelY) {
 		return pixelY % GridConfig.getTotalHeight();
+	}
+
+	public PlayerObject getPlayer() {
+		// TODO Auto-generated method stub
+		return player;
 	}
 }
