@@ -1,5 +1,7 @@
 package application;
 
+import application.objects.MoveableObject;
+
 public class MoveRequest {
     public final MoveableObject obj;
     public final Direction dir;

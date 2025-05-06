@@ -1,7 +1,11 @@
-package application;
+package application.objects;
 
 import java.util.Random;
 
+import application.Direction;
+import application.Model;
+import application.components.HealthComponent;
+import application.terrain.Terrain;
 import javafx.scene.paint.Color;
 
 public abstract class Enemy extends MoveableObject {
@@ -48,6 +52,14 @@ public abstract class Enemy extends MoveableObject {
 			moveTimer = 0;
 		}
 	}
+
+	protected abstract void setHealthComponent(int health);
+	
+	public void loseHealth(int dmg) {
+	    HealthComponent hp = getComponent(HealthComponent.class);
+	    if (hp != null) hp.takeDamage(dmg);
+	}
+	
 	
 	public String getTag() {
 		return tag;

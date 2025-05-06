@@ -1,4 +1,8 @@
-package application;
+package application.objects;
+
+import application.Direction;
+import application.Model;
+import application.terrain.Terrain;
 
 public abstract class MoveableObject extends GameObject{
 
@@ -28,10 +32,10 @@ public abstract class MoveableObject extends GameObject{
 			int gx = getGridX() + direction.getXDir();
 			int gy = getGridY() + direction.getYDir();
 			standingOn = terrain[gy][gx];
-			model.moveObject(direction, this);
+			model.queueMove(this, direction);
 			facing = direction;
 		}else return null;
-
+		
 		return this.getPostion();
 	}
 	

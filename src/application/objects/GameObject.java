@@ -1,4 +1,10 @@
-package application;
+package application.objects;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import application.GridConfig;
+import application.components.Component;
 
 public abstract class GameObject {
 	
@@ -6,6 +12,9 @@ public abstract class GameObject {
 	private int y;
 	private int width;
 	private int height;
+	
+	// === Component Map ===
+    private Map<Class<? extends Component>, Component> components = new HashMap<>();
 	
 	
 	GameObject(int x, int y, int w, int h){
@@ -86,7 +95,7 @@ public abstract class GameObject {
 		return new int[] {x,y};
 	}
 	
-	protected int[] getPostionOnGraph() {
+	public int[] getPostionOnGraph() {
 		int xpos = x / GridConfig.CELL_WIDTH;
 		int ypos = y / GridConfig.CELL_HEIGHT;
 		return new int[] {xpos,ypos};
@@ -99,6 +108,24 @@ public abstract class GameObject {
 	public int getGridY() {
 		return y / GridConfig.CELL_HEIGHT;
 	}
+	
+	
+	 // === Component Methods ===
+    public void addComponent(Component component) {
+        components.put(component.getClass(), component);
+    }
+
+    public <T extends Component> T getComponent(Class<T> cls) {
+        return cls.cast(components.get(cls));
+    }
+
+    public boolean hasComponent(Class<? extends Component> cls) {
+        return components.containsKey(cls);
+    }
+
+    public void removeComponent(Class<? extends Component> cls) {
+        components.remove(cls);
+    }
 
 	
 	

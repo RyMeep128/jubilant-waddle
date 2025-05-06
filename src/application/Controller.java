@@ -2,6 +2,8 @@ package application;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
+import application.terrain.Terrain;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;

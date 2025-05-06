@@ -1,5 +1,6 @@
-package application;
+package application.terrain;
 
+import application.Direction;
 import javafx.scene.paint.Color;
 
 /**

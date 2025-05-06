@@ -1,5 +1,6 @@
 package application;
 
+import application.terrain.Terrain;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -43,8 +44,8 @@ public class View {
 				terrain[i][j].setY(i * GridConfig.CELL_HEIGHT);
 
 				terrain[i][j].setFill(terrainCopy[i][j].getColor());
-				terrain[i][j].setStroke(Color.BLACK);          
-				terrain[i][j].setStrokeWidth(.5);               
+//				terrain[i][j].setStroke(Color.BLACK);          
+//				terrain[i][j].setStrokeWidth(.5);               
 				gameWindow.getChildren().add(terrain[i][j]);
 			}
 		}

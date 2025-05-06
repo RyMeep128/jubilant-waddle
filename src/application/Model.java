@@ -5,6 +5,12 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
+import application.objects.Enemy;
+import application.objects.MoveableObject;
+import application.objects.PlayerObject;
+import application.objects.Zok;
+import application.terrain.Terrain;
+
 
 /**
  * Model – Contains the core game logic and state.
@@ -31,7 +37,7 @@ public class Model {
 		terrain = new Terrain[GridConfig.CELLS_WIDE][GridConfig.CELLS_TALL];
 		makeBorder(); // Initialize terrain with a bordered wall
 
-		player = new PlayerObject(400, 100);
+		player = new PlayerObject(400, 100,100);
 
 		enemyList = new ArrayList<>();
 		enemyList.add(new Zok(128, 128)); // Add a sample enemy for now
@@ -102,7 +108,6 @@ public class Model {
 	}	
 
 	private void processMoveQueue() {
-		int i =0;
 		for (MoveRequest req : moveQueue) {
 			MoveableObject obj = req.obj;
 			Direction dir = req.dir;
