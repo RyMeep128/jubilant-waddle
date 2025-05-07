@@ -3,18 +3,20 @@ package application;
 import java.util.Random;
 
 public enum Direction {
-    UP(0,-1),
-    DOWN(0,1),
-    LEFT(-1,0),
-    RIGHT(1,0),
-	NONE(0,0);
+    UP(0,-1,"UP"),
+    DOWN(0,1,"DOWN"),
+    LEFT(-1,0,"LEFT"),
+    RIGHT(1,0,"RIGHT"),
+	NONE(0,0,"NONE");
     
 	private final int xDir;
 	private final int yDir;
+	private final String direction;
 	
-    Direction(int x, int y) {
+    Direction(int x, int y,String dir) {
     	xDir = x;
     	yDir = y;
+    	direction = dir;
 	}
     
     public int[] getXY() {
@@ -47,5 +49,9 @@ public enum Direction {
 	public int getYDir() {
 		// TODO Auto-generated method stub
 		return yDir;
+	}
+	
+	public String getDirection() {
+		return direction;
 	}
 }

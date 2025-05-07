@@ -1,30 +1,32 @@
 package application.objects;
 
+import application.Model;
 import application.components.HealthComponent;
 import application.components.InputComponent;
+import application.components.WeaponComponent;
 import application.terrain.Terrain;
 
 public class PlayerObject extends MoveableObject{
 	
-	private int defaultHealth = 100;
+	private static final int DEFAULT_WIDTH = 50;
+    private static final int DEFAULT_HEIGHT = 50;
+    private static final int DEFAULT_HEALTH = 100;
 
-	PlayerObject(int x, int y, int w, int h,int health) {
-		super(x, y, w, h,Terrain.PLAYER);
-		addComponent(new HealthComponent(health)); // Add health here
-		addComponent(new InputComponent());
-	}
-	
-	public PlayerObject(int x, int y,int health) {
-		super(x,y,Terrain.PLAYER);
-		addComponent(new HealthComponent(health)); // Add health here
-		addComponent(new InputComponent());
-	}
-	
-	public PlayerObject(int x, int y) {
-		super(x,y,Terrain.PLAYER);
-		addComponent(new HealthComponent(defaultHealth)); // Add health here
-		addComponent(new InputComponent());
-	}
+    public PlayerObject(int x, int y, int w, int h, int health,Model model) {
+        super(x, y, w, h, Terrain.PLAYER,model);
+        addComponent(new HealthComponent(health));
+        addComponent(new InputComponent());
+        addComponent(new WeaponComponent(20, 500)); // 20 damage, 500ms cooldown
+        
+    }
+
+    public PlayerObject(int x, int y, int health,Model model) {
+        this(x, y, DEFAULT_WIDTH, DEFAULT_HEIGHT, health,model);
+    }
+
+    public PlayerObject(int x, int y,Model model) {
+        this(x, y, DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_HEALTH,model);
+    }
 
 	@Override
 	public String getDesc() {
@@ -49,6 +51,8 @@ public class PlayerObject extends MoveableObject{
 	    HealthComponent hp = getComponent(HealthComponent.class);
 	    if (hp != null) hp.heal(health);
 	}
+	
+
 
 
 	

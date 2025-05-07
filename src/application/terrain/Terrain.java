@@ -12,7 +12,8 @@ public enum Terrain{
 	WALL("w", Color.DARKGRAY, false),
 	WATER("a", Color.BLUE, false),
 	PLAYER("p", Color.GREEN, false, EMPTY),
-	ZOK("v", Color.RED, false, EMPTY);
+	ZOK("v", Color.RED, false, EMPTY),
+	SWORD("s",Color.WHITE,true, EMPTY);
 
 	private final String code;
 	private final Color color;

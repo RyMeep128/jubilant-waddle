@@ -18,15 +18,15 @@ public abstract class EnemyObject extends MoveableObject {
 	private double moveTimer = 0;
 	private Random random = new Random();
 		
-	EnemyObject(int x, int y, int w, int h, String tag, Terrain type) {
-		super(x, y, w, h, type);
+	EnemyObject(int x, int y, int w, int h, String tag, Terrain type,Model model) {
+		super(x, y, w, h, type,model);
 		this.tag = tag;
 		this.defaultColor = Color.RED;
 		// TODO Auto-generated constructor stub
 	}
 	
-	EnemyObject(int x, int y, String tag,Terrain type) {
-		super(x, y, type);
+	EnemyObject(int x, int y, String tag,Terrain type,Model model) {
+		super(x, y, type,model);
 		this.defaultColor = Color.RED;
 		this.tag = tag;
 		}

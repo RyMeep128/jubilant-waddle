@@ -11,23 +11,26 @@ public abstract class MoveableObject extends GameObject{
 	private Direction facing;
 	
 		
-	MoveableObject(int x, int y, Terrain type) {
+	MoveableObject(int x, int y, Terrain type,Model model) {
 		super(x, y);
 		this.type = type;
 		facing = Direction.RIGHT;	
 		standingOn = Terrain.EMPTY;
+		//This is for making the objects appear on the terrain
+		model.queueMove(this, Direction.NONE);
 	}
 
-	MoveableObject(int x, int y, int w,int h, Terrain type) {
+	MoveableObject(int x, int y, int w,int h, Terrain type,Model model) {
 		super(x, y,w,h);
 		this.type = type;
 		facing = Direction.RIGHT;	
 		standingOn = Terrain.EMPTY;
+		//This is for making the objects appear on the terrain
+		model.queueMove(this, Direction.NONE);
 	}
 
 
 	public int[] move(Direction direction, Terrain[][] terrain, Model model) {
-		//TODO: Set up the getY to be terrain[[][] based, not pixel based
 		if(Terrain.canMove(terrain, direction, this.getPostionOnGraph())) {
 			int gx = getGridX() + direction.getXDir();
 			int gy = getGridY() + direction.getYDir();
@@ -45,6 +48,10 @@ public abstract class MoveableObject extends GameObject{
 	
 	public Terrain getStandingOn() {
 		return this.standingOn;
+	}
+	
+	public Direction getFacing() {
+		return facing;
 	}
 	
 

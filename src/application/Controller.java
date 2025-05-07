@@ -7,7 +7,6 @@ import application.components.InputComponent;
 import application.terrain.Terrain;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 
 
@@ -57,19 +56,7 @@ public class Controller implements PropertyChangeListener {
 	            input.release(event.getCode());
 	        }
 	    });
-	}
-
-
-	/**
-	 * Utility method for comparing two KeyCode objects.
-	 * 
-	 * @param key The actual key pressed
-	 * @param pressed The key to compare against
-	 * @return true if the keys match
-	 */
-	private boolean compareKeyCode(KeyCode key, KeyCode pressed) {
-		return key.equals(pressed);
-	}		
+	}	
 
 	/** @return the width of the view */
 	public int getWidth() {

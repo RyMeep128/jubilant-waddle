@@ -5,7 +5,7 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
-import application.components.InputComponent;
+import application.components.*;
 import application.objects.EnemyObject;
 import application.objects.MoveableObject;
 import application.objects.PlayerObject;
@@ -39,11 +39,11 @@ public class Model {
 		terrain = new Terrain[GridConfig.CELLS_WIDE][GridConfig.CELLS_TALL];
 		makeBorder(); // Initialize terrain with a bordered wall
 
-		player = new PlayerObject(400, 100,100);
+		player = new PlayerObject(400, 100,this);
 
 		enemyList = new ArrayList<>();
-		enemyList.add(new Zok(128, 128)); // Add a sample enemy for now
-		this.moveObject(Direction.NONE, enemyList.get(0));
+		enemyList.add(new Zok(128, 128,this)); // Add a sample enemy for now
+		enemyList.add(new Zok(200, 300,this)); // Add a sample enemy for now
 
 	}
 
@@ -82,13 +82,13 @@ public class Model {
 
 	// Model.java
 	public void move(Direction dir) {
-	    // current grid position of the player
-	    int[] pos = player.getPostionOnGraph();
+		// current grid position of the player
+		int[] pos = player.getPostionOnGraph();
 
-	    // only queue the move if it is legal
-	    if (Terrain.canMove(terrain, dir, pos)) {
-	        queueMove(player, dir);
-	    }
+		// only queue the move if it is legal
+		if (Terrain.canMove(terrain, dir, pos)) {
+			queueMove(player, dir);
+		}
 	}
 
 
@@ -109,34 +109,42 @@ public class Model {
 		processMoveQueue();  // Actually resolve the moves
 		support.firePropertyChange("UpdateBoard", "NotNull", terrain);
 	}	
-	
-	
+
+
 	private long lastMoveTime = 0;
 	private final long moveCooldownMillis = 75; // Adjust this to control movement speed
-	
+
 	private void handleKeys() {
 		InputComponent input = player.getComponent(InputComponent.class);
-		
-	    if (input == null) 
-	    	return;
-	    
-	    long now = System.currentTimeMillis();
-	    
-	    if (now - lastMoveTime < moveCooldownMillis) {
-	        return; // Not enough time has passed
-	    }
-	    
-	    
-		if (input != null) {
-		    if (input.isPressed(KeyCode.W) || input.isPressed(KeyCode.UP)) 
-		    	move(Direction.UP);
-		    if (input.isPressed(KeyCode.S) || input.isPressed(KeyCode.DOWN)) 
-		    	move(Direction.DOWN);
-		    if (input.isPressed(KeyCode.A) || input.isPressed(KeyCode.LEFT)) 
-		    	move(Direction.LEFT);
-		    if (input.isPressed(KeyCode.D) || input.isPressed(KeyCode.RIGHT)) 
-		    	move(Direction.RIGHT);
+
+		if (input == null) 
+			return;
+
+		long now = System.currentTimeMillis();
+
+		if (now - lastMoveTime < moveCooldownMillis) {
+			return; // Not enough time has passed
 		}
+
+
+
+		if (input.isPressed(KeyCode.W) || input.isPressed(KeyCode.UP)) 
+			player.move(Direction.UP, terrain, this);
+		if (input.isPressed(KeyCode.S) || input.isPressed(KeyCode.DOWN)) 
+			player.move(Direction.DOWN, terrain, this);
+		if (input.isPressed(KeyCode.A) || input.isPressed(KeyCode.LEFT)) 
+			player.move(Direction.LEFT, terrain, this);
+		if (input.isPressed(KeyCode.D) || input.isPressed(KeyCode.RIGHT)) 
+			player.move(Direction.RIGHT, terrain, this);
+		if (input.isPressed(KeyCode.SPACE)) {
+			WeaponComponent weapon = player.getComponent(WeaponComponent.class);
+			if (weapon != null && weapon.canAttack()) {
+				// TODO: Find enemies near player and apply damage
+				weapon.triggerAttack();
+				System.out.println("Player attacked "+player.getFacing().getXDir()+","+player.getFacing().getYDir());
+			}
+		}
+
 		lastMoveTime = now;
 
 	}
@@ -160,6 +168,7 @@ public class Model {
 	/**
 	 * @return the terrain grid representing the map
 	 */
+	@SuppressWarnings("exports")
 	public Terrain[][] getTerrain() {
 		return terrain;
 	}
@@ -206,8 +215,8 @@ public class Model {
 		return pixelY % GridConfig.getTotalHeight();
 	}
 
+	@SuppressWarnings("exports")
 	public PlayerObject getPlayer() {
-		// TODO Auto-generated method stub
 		return player;
 	}
 }
